@@ -1,6 +1,5 @@
-import { useQuery } from '@tanstack/react-query'
-import { Button } from "@/components/ui/button";
-import { RefreshCw, Bot } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Bot } from "lucide-react";
 import { LoadingSkeleton } from "@/components/LoadingSkeleton";
 import { ErrorState } from "@/components/ErrorState";
 import { RecommendationOverview } from "@/components/RecommendationOverview";
@@ -20,10 +19,10 @@ interface RecommendationData {
 
 export default function RecommendationsPage() {
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ['recommendations'],
+    queryKey: ["recommendations"],
     queryFn: async () => {
       const response = await fetch(
-        "https://peakagent-assignment-production.up.railway.app/api/recommendations/latest"
+        `${import.meta.env.VITE_API_BASE_URL}/recommendations/latest`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -43,7 +42,10 @@ export default function RecommendationsPage() {
   return (
     <div className="min-h-screen bg-background relative">
       {/* decorative background */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+      >
         <div className="absolute -top-28 right-0 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
         <div className="absolute bottom-0 -left-20 h-80 w-80 rounded-full bg-secondary/10 blur-3xl" />
       </div>
@@ -57,14 +59,14 @@ export default function RecommendationsPage() {
                 <Bot className="h-5 w-5" />
               </div>
               <div>
-                <h1 className="text-xl font-semibold tracking-tight">PeakAgent Insights</h1>
-                <p className="text-xs text-muted-foreground">AI-powered trading signals</p>
+                <h1 className="text-xl font-semibold tracking-tight">
+                  PeakAgent Insights
+                </h1>
+                <p className="text-xs text-muted-foreground">
+                  AI-powered trading signals
+                </p>
               </div>
             </div>
-            <Button onClick={() => refetch()} variant="outline" className="gap-2">
-              <RefreshCw className="h-4 w-4" />
-              Refresh
-            </Button>
           </div>
         </div>
       </header>
@@ -81,7 +83,8 @@ export default function RecommendationsPage() {
         {/* Footer */}
         <footer className="mt-12 grid place-items-center border-t pt-8 text-center text-sm text-muted-foreground">
           <p className="max-w-prose text-balance">
-            Financial recommendations are AI-generated and should not be considered financial advice.
+            Financial recommendations are AI-generated and should not be
+            considered financial advice.
           </p>
         </footer>
       </main>
